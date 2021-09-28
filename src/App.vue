@@ -1,20 +1,31 @@
 <template>
-  <Navbar />
+  <Navigation />
+  <div class="space"></div>
+  <Problem />
 </template>
 
 <script>
-import Navbar from "./components/Navbar.vue";
+import Navigation from "./components/Navigation.vue";
+import Problem from "./components/problem/Description.vue";
 
 export default {
   name: "App",
   components: {
-    Navbar,
+    Navigation,
+    Problem,
   },
 };
 </script>
 
 <style>
+* {
+  margin: 0;
+}
+.space {
+  height: 40px;
+}
 #app {
+  padding: 50px 100px;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
