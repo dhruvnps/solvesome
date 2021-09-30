@@ -1,6 +1,5 @@
 <template>
   <Navigation />
-  <div class="space"></div>
   <Problem />
 </template>
 
@@ -20,9 +19,6 @@ export default {
 <style>
 * {
   margin: 0;
-}
-.space {
-  height: 40px;
 }
 #app {
   padding: 50px 100px;

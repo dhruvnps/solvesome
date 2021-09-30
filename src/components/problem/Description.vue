@@ -1,20 +1,14 @@
 <template>
+  <br />
+  <br />
+  <h2>Fuel Injection Perfection</h2>
+  <br />
   <h3>Description</h3>
   <br />
   <p>
-    Commander Lambda has asked for your help to refine the automatic quantum
-    antimatter fuel injection system for her LAMBCHOP doomsday device. It's a
-    great chance for you to get a closer look at the LAMBCHOP - and maybe sneak
-    in a bit of sabotage while you're at it - so you took the job gladly.
-    Quantum antimatter fuel comes in small pellets, which is convenient since
-    the many moving parts of the LAMBCHOP each need to be fed fuel one pellet at
-    a time.
-  </p>
-  <br />
-  <p>
-    However, minions dump pellets in bulk into the fuel intake. You need to
-    figure out the most efficient way to sort and shift the pellets down to a
-    single pellet at a time. The fuel control mechanisms have three operations:
+    Minions dump pellets in bulk into the fuel intake. You need to figure out
+    the most efficient way to sort and shift the pellets down to a single pellet
+    at a time. The fuel control mechanisms have three operations:
   </p>
   <br />
   <ul>
@@ -41,8 +35,9 @@
   <h3>Code</h3>
   <br />
   <pre><code>
-  def solution(n):
-    # returns an integer
+  function solution(n) {
+    // returns an integer
+  }
   </code></pre>
   <br />
 

@@ -2,7 +2,7 @@
   <div class="bar">
     <span class="title">solvesome</span>
     <div class="right">
-      <span>Settings</span>
+      <span>Profile</span>
       <span>Login</span>
     </div>
   </div>
