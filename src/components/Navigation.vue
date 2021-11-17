@@ -3,7 +3,7 @@
     <span class="title">solvesome</span>
     <div class="right">
       <span>Profile</span>
-      <span>Login</span>
+      <span>Logout</span>
     </div>
   </div>
 </template>
