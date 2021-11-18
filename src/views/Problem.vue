@@ -1,6 +1,6 @@
 <template>
   <div :class="state">
-    <h2>{{ problem.Title }}</h2>
+    <h2 class="title">{{ problem.Title }}</h2>
     <br />
     <h3>Description</h3>
     <br />
@@ -14,7 +14,7 @@
 
 
 <script>
-import DBService from "../dbservice";
+import DBService from "@/dbservice";
 
 export default {
   name: "Problem",
@@ -34,6 +34,10 @@ export default {
 
 
 <style scoped >
+.title {
+  font-size: xx-large;
+  font-weight: lighter;
+}
 textarea {
   background-color: #f4f4f4;
   display: block;
@@ -46,6 +50,6 @@ textarea {
   opacity: 0;
 }
 div {
-  transition: 1000ms;
+  transition: 1s;
 }
 </style>

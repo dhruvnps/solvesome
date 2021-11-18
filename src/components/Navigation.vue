@@ -1,11 +1,15 @@
 <template>
   <div class="bar">
-    <span class="title">solvesome</span>
+    <router-link to="/">
+      <span class="title">solvesome</span>
+    </router-link>
     <div class="right">
       <span>Profile</span>
       <span>Logout</span>
     </div>
   </div>
+  <br />
+  <br />
 </template>
 
 <script>
@@ -33,5 +37,14 @@ div.bar .right span {
 span.title {
   font-weight: bold;
   font-size: xx-large;
+}
+span {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
 }
 </style>

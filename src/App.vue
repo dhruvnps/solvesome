@@ -1,27 +1,24 @@
 <template>
   <Navigation />
-  <br />
-  <br />
-  <Problem v-if="false" ID="E87gT51b1gLwGlBs67B6" />
-  <List />
+  <router-view />
 </template>
 
 <script>
-import Navigation from "./components/Navigation.vue";
-import Problem from "./components/Problem.vue";
-import List from "./components/List.vue";
+import Navigation from "@/components/Navigation.vue";
 
 export default {
   name: "App",
   components: {
     Navigation,
-    Problem,
-    List,
   },
 };
 </script>
 
 <style>
+a {
+  text-decoration: none;
+  color: inherit;
+}
 * {
   margin: 0;
 }

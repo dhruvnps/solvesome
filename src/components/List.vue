@@ -1,8 +1,15 @@
 <template>
   <div class="list" :class="state">
-    <div v-for="item in items" :key="item" class="item">
-      <span class="title">{{ item.problem.Title }}</span>
-      <span class="user">Posted by {{ item.user.Name }}</span>
+    <div v-for="item in items" :key="item">
+      <div class="item">
+        <router-link :to="'/problem/' + item.problem.id" class="link">
+          <span class="title">{{ item.problem.Title }}</span>
+          <div class="userblock">
+            <span class="user">Posted by {{ item.user.Name }}</span>
+          </div>
+        </router-link>
+        <hr />
+      </div>
     </div>
   </div>
 </template>
@@ -16,6 +23,7 @@ export default {
     DBService.getProblems().then((col) => {
       col.docs.forEach((doc) => {
         const problem = doc.data();
+        problem.id = doc.id;
         DBService.getUser(problem.UID).then((docSnap) => {
           this.items.push({
             problem: problem,
@@ -38,20 +46,32 @@ export default {
   opacity: 0;
 }
 div.list {
-  transition: 1000ms;
+  transition: 1s;
 }
 div.item {
+  padding-bottom: 20px;
+}
+.link {
   display: flex;
-  flex-direction: column;
-  padding: 10px 0 10px 0;
+  justify-content: space-between;
+  flex-direction: row;
 }
 .title {
   font-size: x-large;
-  padding-top: 10px;
+  font-weight: lighter;
 }
 .user {
   font-size: small;
-  font-weight: bold;
-  padding-bottom: 10px;
+}
+.userblock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+hr {
+  border: 0;
+  border-top: 1px solid var(--primary);
+  margin: 0;
+  opacity: 0.1;
 }
 </style>
