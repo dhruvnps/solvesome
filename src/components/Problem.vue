@@ -1,14 +1,14 @@
 <template>
   <div :class="state">
-    <h2>{{ data.Title }}</h2>
+    <h2>{{ problem.Title }}</h2>
     <br />
     <h3>Description</h3>
     <br />
-    <span v-html="data.Description"></span>
+    <span v-html="problem.Description"></span>
     <br />
     <h3>Code</h3>
     <br />
-    <textarea v-model="data.Code"> </textarea>
+    <textarea v-model="problem.Code"> </textarea>
   </div>
 </template>
 
@@ -21,12 +21,12 @@ export default {
   props: { ID: String },
   data() {
     DBService.getProblem(this.ID).then((docSnap) => {
-      this.data = docSnap.data();
+      this.problem = docSnap.data();
       this.state = "";
     });
     return {
       state: "loading",
-      data: {},
+      problem: {},
     };
   },
 };

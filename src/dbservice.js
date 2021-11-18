@@ -1,18 +1,17 @@
-import { getFirestore, getDoc, doc } from "firebase/firestore";
+import { getFirestore, getDoc, getDocs, doc, collection } from "firebase/firestore";
 
 class DBService {
 
-  getDocRef(collection, ID) {
-    const db = getFirestore();
-    return doc(db, collection, ID);
-  }
-
   async getProblem(ID) {
-    return await getDoc(this.getDocRef("Problems", ID));
+    return await getDoc(doc(getFirestore(), "Problems", ID));
   }
 
   async getUser(ID) {
-    return await getDoc(this.getDocRef("Users", ID));
+    return await getDoc(doc(getFirestore(), "Users", ID));
+  }
+
+  async getProblems() {
+    return await getDocs(collection(getFirestore(), "Problems"));
   }
 
 }
