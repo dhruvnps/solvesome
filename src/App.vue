@@ -23,7 +23,7 @@ a {
   margin: 0;
 }
 #app {
-  --primary: #2c3e50;
+  --primary: #505050;
   padding: 50px 100px;
   font-family: Avenir, sans-serif;
   -webkit-font-smoothing: antialiased;

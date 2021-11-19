@@ -1,9 +1,11 @@
 <template>
   <div class="list" :class="state">
+    <h3>Problems</h3>
     <div v-for="item in items" :key="item">
       <div class="item">
         <router-link :to="'/problem/' + item.id" class="link">
           <span class="title">{{ item.problem.Title }}</span>
+          <div class="block"></div>
         </router-link>
         <hr />
       </div>
@@ -36,10 +38,8 @@ export default {
 div.list {
   transition: 1s;
 }
-div.item {
-  padding-bottom: 20px;
-}
 .link {
+  padding-top: 15px;
   display: flex;
   justify-content: space-between;
   flex-direction: row;
@@ -48,18 +48,19 @@ div.item {
   font-size: x-large;
   font-weight: lighter;
 }
-.user {
-  font-size: small;
-}
-.userblock {
+.block {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-hr {
+.item hr {
   border: 0;
   border-top: 1px solid var(--primary);
   margin: 0;
+  opacity: 0.1;
+  transition: 0.2s;
+}
+.item:hover hr {
   opacity: 1;
 }
 </style>

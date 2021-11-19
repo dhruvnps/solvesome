@@ -42,7 +42,7 @@ textarea {
   background-color: #f4f4f4;
   display: block;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 10px;
   width: calc(100% - 20px);
   height: 100px;
 }
