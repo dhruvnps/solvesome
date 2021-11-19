@@ -2,11 +2,8 @@
   <div class="list" :class="state">
     <div v-for="item in items" :key="item">
       <div class="item">
-        <router-link :to="'/problem/' + item.problem.id" class="link">
+        <router-link :to="'/problem/' + item.id" class="link">
           <span class="title">{{ item.problem.Title }}</span>
-          <div class="userblock">
-            <span class="user">Posted by {{ item.user.Name }}</span>
-          </div>
         </router-link>
         <hr />
       </div>
@@ -21,16 +18,7 @@ export default {
   name: "Listitem",
   data() {
     DBService.getProblems().then((col) => {
-      col.docs.forEach((doc) => {
-        const problem = doc.data();
-        problem.id = doc.id;
-        DBService.getUser(problem.UID).then((docSnap) => {
-          this.items.push({
-            problem: problem,
-            user: docSnap.data(),
-          });
-        });
-      });
+      this.items = col.docs.map((doc) => ({ problem: doc.data(), id: doc.id }));
       this.state = "";
     });
     return {
@@ -72,6 +60,6 @@ hr {
   border: 0;
   border-top: 1px solid var(--primary);
   margin: 0;
-  opacity: 0.1;
+  opacity: 1;
 }
 </style>
