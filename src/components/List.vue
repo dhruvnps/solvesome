@@ -1,6 +1,6 @@
 <template>
+  <h3>Problems</h3>
   <div class="list" :class="state">
-    <h3>Problems</h3>
     <div v-for="item in items" :key="item">
       <div class="item">
         <router-link :to="'/problem/' + item.id" class="link">
@@ -11,6 +11,8 @@
       </div>
     </div>
   </div>
+  <br />
+  <br />
 </template>
 
 <script>

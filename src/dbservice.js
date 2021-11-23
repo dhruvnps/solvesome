@@ -1,17 +1,18 @@
-import { getFirestore, getDoc, getDocs, doc, collection } from "firebase/firestore";
+import { getDoc, getDocs, doc, collection } from "firebase/firestore";
+import { db } from "@/firebase"
 
 class DBService {
 
   async getProblem(ID) {
-    return await getDoc(doc(getFirestore(), "Problems", ID));
+    return await getDoc(doc(db, "Problems", ID));
   }
 
   async getUser(ID) {
-    return await getDoc(doc(getFirestore(), "Users", ID));
+    return await getDoc(doc(db, "Users", ID));
   }
 
   async getProblems() {
-    return await getDocs(collection(getFirestore(), "Problems"));
+    return await getDocs(collection(db, "Problems"));
   }
 
 }

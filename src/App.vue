@@ -23,8 +23,10 @@ a {
   margin: 0;
 }
 #app {
-  --primary: #505050;
-  padding: 50px 100px;
+  --primary: rgb(80, 80, 80);
+  --padding-width: 100px;
+  --padding-height: 50px;
+  padding: var(--padding-height) var(--padding-width);
   font-family: Avenir, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
