@@ -1,6 +1,6 @@
 <template>
-  <h3>Problems</h3>
   <div class="list" :class="state">
+    <h3>Problems</h3>
     <div v-for="item in items" :key="item">
       <div class="item">
         <router-link :to="'/problem/' + item.id" class="link">
@@ -10,9 +10,12 @@
         <hr />
       </div>
     </div>
+    <br />
+    <br />
+    <router-link to="/create" class="add">
+      <span>+ Create Problem</span>
+    </router-link>
   </div>
-  <br />
-  <br />
 </template>
 
 <script>
@@ -64,5 +67,14 @@ div.list {
 }
 .item:hover hr {
   opacity: 1;
+}
+.add {
+  height: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--primary);
+  transition: 0.2s;
 }
 </style>
