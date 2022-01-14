@@ -9,7 +9,6 @@
     </div>
   </div>
   <br />
-  <br />
 </template>
 
 <script>
@@ -31,11 +30,9 @@ div.bar .right {
 }
 div.bar .right span {
   padding-left: 10px;
-  padding-right: 10px;
-  font-size: x-large;
+  font-size: large;
 }
 span.title {
-  font-weight: bold;
   font-size: xx-large;
 }
 span {

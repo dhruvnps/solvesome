@@ -8,7 +8,7 @@
     <br />
     <h3>Code</h3>
     <br />
-    <textarea v-model="problem.Code"> </textarea>
+    <textarea v-model="problem.Code" @keydown.tab.prevent> </textarea>
   </div>
 </template>
 
@@ -35,7 +35,7 @@ export default {
 
 <style scoped >
 .title {
-  font-size: xx-large;
+  font-size: x-large;
   font-weight: lighter;
 }
 textarea {

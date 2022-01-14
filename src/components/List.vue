@@ -1,6 +1,12 @@
 <template>
   <div class="list" :class="state">
-    <h3>Problems</h3>
+    <div class="head">
+      <h3>Problems</h3>
+      <router-link to="/create" class="add">
+        <span>+ Create Problem</span>
+      </router-link>
+    </div>
+    <hr />
     <div v-for="item in items" :key="item">
       <div class="item">
         <router-link :to="'/problem/' + item.id" class="link">
@@ -10,11 +16,6 @@
         <hr />
       </div>
     </div>
-    <br />
-    <br />
-    <router-link to="/create" class="add">
-      <span>+ Create Problem</span>
-    </router-link>
   </div>
 </template>
 
@@ -40,11 +41,19 @@ export default {
 .loading {
   opacity: 0;
 }
+.add span {
+  font-weight: bold;
+}
 div.list {
   transition: 1s;
 }
 .link {
   padding-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+.head {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
@@ -58,23 +67,7 @@ div.list {
   flex-direction: column;
   justify-content: center;
 }
-.item hr {
-  border: 0;
-  border-top: 1px solid var(--primary);
-  margin: 0;
-  opacity: 0.1;
-  transition: 0.2s;
-}
 .item:hover hr {
   opacity: 1;
-}
-.add {
-  height: 50px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid var(--primary);
-  transition: 0.2s;
 }
 </style>

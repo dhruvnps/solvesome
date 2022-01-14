@@ -22,6 +22,16 @@ a {
 * {
   margin: 0;
 }
+h3 {
+  font-weight: normal;
+}
+hr {
+  border: 0;
+  border-top: 1px solid var(--primary);
+  margin: 0;
+  opacity: 0.1;
+  transition: 0.2s;
+}
 #app {
   --primary: rgb(80, 80, 80);
   --padding-width: 100px;
