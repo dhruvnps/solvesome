@@ -22,8 +22,9 @@ a {
 * {
   margin: 0;
 }
-h3 {
-  font-weight: normal;
+h3,
+h2 {
+  font-weight: 500;
 }
 hr {
   border: 0;

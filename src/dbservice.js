@@ -1,5 +1,5 @@
 import { getDoc, getDocs, doc, collection } from "firebase/firestore";
-import { db } from "@/firebase"
+import { db } from "@/firebase";
 
 class DBService {
 

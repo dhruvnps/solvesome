@@ -34,10 +34,6 @@ export default {
 
 
 <style scoped >
-.title {
-  font-size: x-large;
-  font-weight: lighter;
-}
 textarea {
   background-color: #f4f4f4;
   display: block;

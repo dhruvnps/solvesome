@@ -41,6 +41,9 @@ export default {
 .loading {
   opacity: 0;
 }
+.head h3 {
+  font-weight: lighter;
+}
 .add span {
   font-weight: bold;
 }

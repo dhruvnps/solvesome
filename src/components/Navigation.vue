@@ -4,8 +4,15 @@
       <span class="title">solvesome</span>
     </router-link>
     <div class="right">
-      <span>Profile</span>
-      <span>Logout</span>
+      <router-link to="/signup" v-if="this.$route.path === '/login'">
+        <span>Sign Up</span>
+      </router-link>
+      <router-link to="/login" v-else-if="this.$route.path === '/signup'">
+        <span>Log In</span>
+      </router-link>
+      <router-link to="/profile" v-else>
+        <span>User123</span>
+      </router-link>
     </div>
   </div>
   <br />
