@@ -1,12 +1,12 @@
 <template>
+  <div class="head">
+    <h3>Problems</h3>
+    <router-link to="/create" class="add">
+      <span>+ Create Problem</span>
+    </router-link>
+  </div>
+  <hr />
   <div class="list" :class="state">
-    <div class="head">
-      <h3>Problems</h3>
-      <router-link to="/create" class="add">
-        <span>+ Create Problem</span>
-      </router-link>
-    </div>
-    <hr />
     <div v-for="item in items" :key="item">
       <div class="item">
         <router-link :to="'/problem/' + item.id" class="link">
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import DBService from "../dbservice";
+import DBService from "@/core/dbservice";
 
 export default {
   name: "Listitem",

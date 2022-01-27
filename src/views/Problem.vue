@@ -14,7 +14,7 @@
 
 
 <script>
-import DBService from "@/dbservice";
+import DBService from "@/core/dbservice";
 
 export default {
   name: "Problem",
