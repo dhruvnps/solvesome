@@ -8,13 +8,13 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
-    meta: { auth: true },
+    meta: { login: true },
   },
   {
     path: '/signup',
     name: 'Signup',
     component: Login,
-    meta: { auth: true },
+    meta: { login: true },
   },
   {
     path: '/',
@@ -45,9 +45,17 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   auth.onAuthStateChanged(function (user) {
     if (to.meta.authRequired) {
-      next(user ? {} : { path: '/login' });
-    } else if (to.meta.auth) {
-      next(user ? { path: '/' } : {});
+      if (user) {
+        next();
+      } else {
+        next({ path: '/login' });
+      }
+    } else if (to.meta.login) {
+      if (user) {
+        next({ path: '/' });
+      } else {
+        next();
+      }
     }
   });
 });
