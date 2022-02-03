@@ -11,7 +11,7 @@
         <span>Log In</span>
       </router-link>
       <router-link to="/profile" v-else>
-        <span>{{ user }}</span>
+        <span>{{ name }}</span>
       </router-link>
     </div>
   </div>
@@ -23,7 +23,7 @@ export default {
   name: "Navigation",
   data() {
     return {
-      user: "Dhruv",
+      name: "",
     };
   },
 };

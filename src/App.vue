@@ -5,11 +5,15 @@
 
 <script>
 import Navigation from "@/components/Navigation.vue";
+import { store } from "@/store";
 
 export default {
   name: "App",
   components: {
     Navigation,
+  },
+  async mounted() {
+    await store.dispatch("authAction");
   },
 };
 </script>

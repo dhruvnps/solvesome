@@ -18,20 +18,14 @@
         required
       />
       <input type="submit" />
-      <p class="forgot" v-if="this.$route.path === '/login'">
-        <a href="#">Forgot your password?</a>
-      </p>
       <span class="error">{{ error }}</span>
     </form>
   </div>
 </template>
 
 <script>
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { auth } from "@/firebase";
+import { computed } from "vue";
+import { store } from "@/store";
 
 export default {
   name: "Login",
@@ -41,25 +35,22 @@ export default {
       name: "",
       email: "",
       password: "",
-      error: "",
+      error: computed(() => store.getters.getError),
     };
   },
   methods: {
     async submit() {
-      this.error = "";
-      try {
-        if (this.$route.path === "/signup") {
-          await createUserWithEmailAndPassword(auth, this.email, this.password);
-          this.$router.push("/");
-        } else {
-          await signInWithEmailAndPassword(auth, this.email, this.password);
-          this.$router.push("/");
-        }
-      } catch (err) {
-        this.error = /\(([^)]+)\)/
-          .exec(err.message)[0]
-          .replace(/[\W_]+/g, " ")
-          .replace("auth", "");
+      if (this.$route.path === "/signup") {
+        store.dispatch("signupAction", {
+          name: this.name,
+          email: this.email,
+          password: this.password,
+        });
+      } else {
+        store.dispatch("loginAction", {
+          email: this.email,
+          password: this.password,
+        });
       }
     },
   },
