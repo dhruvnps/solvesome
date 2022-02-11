@@ -1,8 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import Login from '@/views/Login.vue';
 import Home from '@/views/Home.vue';
-import { computed } from 'vue';
-import { store } from '@/store';
+import { auth } from '@/firebase'
 
 const routes = [
   {
@@ -43,24 +42,24 @@ const router = createRouter({
   routes
 });
 
-router.beforeEach(async function (to, from, next) {
-  await store.dispatch("authAction");
-  var isAuth = computed(() => store.getters.isUserAuth).value
-  if (to.meta.authRequired) {
-    if (isAuth) {
-      next();
+router.beforeEach((to, from, next) => {
+  auth.onAuthStateChanged(authUser => {
+    if (to.meta.authRequired) {
+      if (authUser) {
+        next();
+      } else {
+        next({ path: '/login' });
+      }
+    } else if (to.meta.login) {
+      if (authUser) {
+        next({ path: '/' });
+      } else {
+        next();
+      }
     } else {
-      next({ path: '/login' });
-    }
-  } else if (to.meta.login) {
-    if (isAuth) {
-      next({ path: '/' });
-    } else {
       next();
     }
-  } else {
-    next();
-  }
+  });
 });
 
 export default router;

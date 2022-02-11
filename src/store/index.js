@@ -38,20 +38,21 @@ export const store = createStore({
     async signupAction({ commit }, payload) {
       try {
         await createUserWithEmailAndPassword(auth, payload.email, payload.password);
-        var user = User(payload.name, auth.currentUser.uid);
-        await DBService.createUser(user);
-        commit("setUser", user);
         router.push("/");
+        var user = new User(payload.name, auth.currentUser.uid);
+        commit("setUser", user);
+        DBService.createUser(user);
       } catch (err) {
+        console.log(err);
         commit("setError", err.message);
       }
     },
     async loginAction({ commit }, payload) {
       try {
         await signInWithEmailAndPassword(auth, payload.email, payload.password);
-        var user = DBService.getUser(auth.currentUser.uid)
-        commit("setUser", user);
         router.push("/");
+        var user = await DBService.getUser(auth.currentUser.uid);
+        commit("setUser", user);
       } catch (err) {
         commit("setError", err.message);
       }
@@ -59,13 +60,12 @@ export const store = createStore({
     async authAction({ commit }) {
       await auth.onAuthStateChanged(async function (authUser) {
         if (authUser) {
-          var user = await DBService.getUser(authUser.uid)
-          commit("setUser", user)
+          var user = await DBService.getUser(authUser.uid);
+          commit("setUser", user);
         } else {
           commit("setUser", null);
         }
       });
-      console.log(this.state);
     }
   },
 })

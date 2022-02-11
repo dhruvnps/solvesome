@@ -1,7 +1,6 @@
 import { getDoc, getDocs, doc, collection, setDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 import { User } from "@/core/user";
-// import { Problem } from "@/core/problem";
 
 class DBService {
 
@@ -26,10 +25,6 @@ class DBService {
       uid: user.uid,
       problemids: user.problemids,
     });
-  }
-
-  async createProblem() {
-
   }
 
 }

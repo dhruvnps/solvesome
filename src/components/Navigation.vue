@@ -11,7 +11,7 @@
         <span>Log In</span>
       </router-link>
       <router-link to="/profile" v-else>
-        <span>{{ name }}</span>
+        <span>{{ user ? user.name : "" }}</span>
       </router-link>
     </div>
   </div>
@@ -19,11 +19,14 @@
 </template>
 
 <script>
+import { store } from "@/store";
+import { computed } from "vue";
+
 export default {
   name: "Navigation",
   data() {
     return {
-      name: "",
+      user: computed(() => store.getters.getUser),
     };
   },
 };
