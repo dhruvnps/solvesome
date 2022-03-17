@@ -7,10 +7,10 @@
   </div>
   <hr />
   <div class="list" :class="state">
-    <div v-for="item in items" :key="item">
+    <div v-for="problem in problems" :key="problem">
       <div class="item">
-        <router-link :to="'/problem/' + item.id" class="link">
-          <span class="title">{{ item.problem.Title }}</span>
+        <router-link :to="'/problem/' + problem.id" class="link">
+          <span class="title">{{ problem.title }}</span>
           <div class="block"></div>
         </router-link>
         <hr />
@@ -25,13 +25,11 @@ import DBService from "@/core/dbservice";
 export default {
   name: "Listitem",
   data() {
-    DBService.getProblems().then((col) => {
-      this.items = col.docs.map((doc) => ({ problem: doc.data(), id: doc.id }));
-      this.state = "";
-    });
+    this.problems = await DBService.getAllProblems();
+    this.state = "";
     return {
       state: "loading",
-      items: [],
+      problem: {},
     };
   },
 };
