@@ -39,7 +39,7 @@ export default {
     };
   },
   methods: {
-    async submit() {
+    submit() {
       if (this.$route.path === "/signup") {
         store.dispatch("signupAction", {
           name: this.name,
@@ -71,6 +71,7 @@ form {
 }
 input {
   font-family: inherit;
+  color: var(--primary);
 }
 .error {
   text-transform: capitalize;

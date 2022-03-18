@@ -6,6 +6,7 @@
     <br />
     <span class="description"> {{ problem.description }}</span>
     <br />
+    <br />
     <h3>Code</h3>
     <br />
     <textarea @keydown.tab.prevent> </textarea>
@@ -20,8 +21,10 @@ export default {
   name: "Problem",
   props: { ID: String },
   data() {
-    this.problem = await DBService.getProblem(this.ID);
-    this.state = "";
+    DBService.getProblem(this.ID).then((problem) => {
+      this.problem = problem;
+      this.state = "";
+    });
     return {
       state: "loading",
       problem: {},
@@ -39,6 +42,7 @@ textarea {
   border-radius: 10px;
   width: calc(100% - 20px);
   height: 100px;
+  color: var(--primary);
 }
 .loading {
   opacity: 0;

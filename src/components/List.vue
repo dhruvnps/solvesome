@@ -25,11 +25,13 @@ import DBService from "@/core/dbservice";
 export default {
   name: "Listitem",
   data() {
-    this.problems = await DBService.getAllProblems();
-    this.state = "";
+    DBService.getAllProblems().then((problems) => {
+      this.problems = problems;
+      this.state = "";
+    });
     return {
       state: "loading",
-      problem: {},
+      problems: [],
     };
   },
 };
@@ -46,7 +48,7 @@ export default {
   font-weight: bold;
 }
 div.list {
-  transition: 1s;
+  transition: 0.5s;
 }
 .link {
   padding-top: 15px;

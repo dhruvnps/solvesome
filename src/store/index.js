@@ -31,7 +31,8 @@ export const store = createStore({
     setError(state, payload) {
       state.error = /\(([^)]+)\)/
         .exec(payload)[0]
-        .replace(/[\W_]+/g, " ");
+        .replace(/[\W_]+/g, " ")
+        .replace('auth', '');
     }
   },
   actions: {
