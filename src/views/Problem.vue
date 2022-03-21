@@ -30,6 +30,7 @@
       <br />
       <div v-for="code of submittedCodes" v-bind:key="code">
         <textarea
+          :class="code.uid === user.uid ? 'fill' : ''"
           v-model="code.codeBlock"
           readonly
           class="submittedCode"
@@ -120,8 +121,10 @@ textarea {
   color: var(--primary);
 }
 .submittedCode {
-  background-color: #ffffff;
   margin-bottom: 10px;
+}
+.submittedCode:not(.fill) {
+  background-color: #ffffff;
 }
 .noSolutions {
   color: red;
