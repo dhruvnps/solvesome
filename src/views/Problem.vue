@@ -1,6 +1,9 @@
 <template>
   <div :class="state">
-    <h2 class="title">{{ problem.title }}</h2>
+    <div class="heading">
+      <h2 class="title">{{ problem.title }}</h2>
+      <span class="author">by {{ creator.name }}</span>
+    </div>
     <br />
     <h3>Description</h3>
     <br />
@@ -28,22 +31,26 @@ import DBService from "@/core/dbservice";
 
 export default {
   name: "Problem",
-  props: { ID: String },
+  props: { id: String },
   data() {
-    DBService.getProblem(this.ID).then((problem) => {
-      DBService.getUserProblemCode(store.state.user.uid, problem.id).then(
-        (code) => {
-          this.problem = problem;
-          this.code = code;
-          this.state = "";
-        }
-      );
-    });
+    DBService.getProblem(this.id).then((problem) =>
+      DBService.getUser(problem.uid).then((creator) =>
+        DBService.getUserProblemCode(store.getters.getUser.uid, this.id).then(
+          (code) => {
+            this.problem = problem;
+            this.code = code;
+            this.creator = creator;
+            this.state = "";
+          }
+        )
+      )
+    );
     return {
       state: "loading",
       problem: {},
       code: {},
       output: "",
+      creator: {},
       user: computed(() => store.getters.getUser),
     };
   },
@@ -80,6 +87,13 @@ textarea {
   width: calc(100% - 20px);
   height: 100px;
   color: var(--primary);
+}
+.heading {
+  display: flex;
+  flex-direction: column;
+}
+.author {
+  font-size: small;
 }
 .description {
   white-space: pre-wrap;
