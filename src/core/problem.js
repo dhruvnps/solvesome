@@ -1,10 +1,8 @@
 class Problem {
   // list of test cases
   tests = [];
-  // code IDs of solutions submitted to problem
-  solutionIds = [];
 
-  constructor(title, description, uid, solutionIds, tests, id) {
+  constructor(title, description, uid, tests, id) {
     // problem title/description
     this.title = title;
     this.description = description;
@@ -12,9 +10,8 @@ class Problem {
     // user ID of problem creator
     this.uid = uid;
 
-    // add solutions/tests if given
-    if (solutionIds) this.solutionIds = solutionIds;
-    if (tests) this.solutionIds = tests;
+    // add tests if given
+    if (tests) this.tests = tests;
 
     // randomly generates problem ID if its not given
     this.id = id ? id : parseInt(Date.now() * Math.random()).toString();
@@ -24,6 +21,9 @@ class Problem {
    * add input-output pair to list of problem test cases
    */
   addTest(input, output) {
+    /*
+      TODO: encrypt test output using MD5
+    */
     this.tests.push({
       input: input,
       output: output

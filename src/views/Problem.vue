@@ -9,12 +9,21 @@
     <br />
     <h3>Code</h3>
     <br />
-    <textarea @keydown.tab.prevent> </textarea>
+    <textarea v-model="code.codeBlock" @keydown.tab.prevent> </textarea>
+    <div class="panel">
+      <span class="button" @click="del">Delete</span>
+      <span class="button" @click="saveRun">Save/Run</span>
+      <span class="button" @click="submit">Submit</span>
+      <span class="divider">|</span>
+      <span class="output">{{ output }}</span>
+    </div>
   </div>
 </template>
 
 
 <script>
+import { store } from "@/store";
+import { computed } from "vue";
 import DBService from "@/core/dbservice";
 
 export default {
@@ -22,13 +31,41 @@ export default {
   props: { ID: String },
   data() {
     DBService.getProblem(this.ID).then((problem) => {
-      this.problem = problem;
-      this.state = "";
+      DBService.getUserProblemCode(store.state.user.uid, problem.id).then(
+        (code) => {
+          this.problem = problem;
+          this.code = code;
+          this.state = "";
+        }
+      );
     });
     return {
       state: "loading",
       problem: {},
+      code: {},
+      output: "",
+      user: computed(() => store.getters.getUser),
     };
+  },
+  methods: {
+    async del() {
+      this.code.resetCode();
+      this.output = "";
+      await DBService.updateCode(this.code);
+    },
+    async saveRun() {
+      var score = this.code.testCode(this.problem.tests);
+      this.output = score + " Tests Passed!";
+      await DBService.updateCode(this.code);
+    },
+    async submit() {
+      if (!this.code.submitCode(this.problem.tests)) {
+        this.output = "Incorrect Solution";
+      } else {
+        // correct solution
+      }
+      await DBService.updateCode(this.code);
+    },
   },
 };
 </script>
@@ -44,10 +81,29 @@ textarea {
   height: 100px;
   color: var(--primary);
 }
-.loading {
-  opacity: 0;
+.description {
+  white-space: pre-wrap;
+}
+.panel {
+  margin-top: 5px;
+}
+.button {
+  margin-right: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.output {
+  color: red;
+  margin-left: 15px;
+}
+.divider {
+  font-size: x-large;
+  font-weight: 100;
 }
 div {
   transition: 1s;
+}
+.loading {
+  opacity: 0;
 }
 </style>

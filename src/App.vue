@@ -25,6 +25,7 @@ a {
 }
 * {
   margin: 0;
+  outline: 0;
 }
 h3,
 h2 {

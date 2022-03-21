@@ -1,7 +1,7 @@
 <template>
   <div class="head">
-    <h3>Problems</h3>
-    <router-link to="/create" class="add">
+    <h3>{{ this.title }}</h3>
+    <router-link v-if="showCreateButton" to="/create" class="add">
       <span>+ Create Problem</span>
     </router-link>
   </div>
@@ -20,12 +20,11 @@
 </template>
 
 <script>
-import DBService from "@/core/dbservice";
-
 export default {
   name: "Listitem",
+  props: ["title", "problemGetter", "showCreateButton"],
   data() {
-    DBService.getAllProblems().then((problems) => {
+    this.problemGetter().then((problems) => {
       this.problems = problems;
       this.state = "";
     });

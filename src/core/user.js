@@ -1,15 +1,13 @@
 class User {
-  // IDs of problems associated to user
-  problemIds = [];
 
-  constructor(name, uid, problemIds) {
-    // user name/ID
+  constructor(name, uid) {
+    // user name
     this.name = name;
-    this.uid = uid;
 
-    // add problem IDs if given
-    if (problemIds) this.problemIds = problemIds;
+    // unique user ID assigned at signup
+    this.uid = uid;
   }
+
 }
 
 export { User };
