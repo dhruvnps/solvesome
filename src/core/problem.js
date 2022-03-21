@@ -33,8 +33,8 @@ class Problem {
   /**
    * add solution to problem by adding code ID to list
    */
-  addSolution(codeID) {
-    this.solutionIds.push(codeID);
+  addSolution(codeId) {
+    this.solutionIds.push(codeId);
   }
 }
 

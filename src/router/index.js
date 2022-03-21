@@ -23,7 +23,7 @@ const routes = [
     meta: { authRequired: true },
   },
   {
-    path: '/problem/:ID',
+    path: '/problem/:id',
     name: 'Problem',
     props: true,
     component: () => import('@/views/Problem.vue'),
