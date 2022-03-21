@@ -55,7 +55,7 @@ export default {
     async submit() {
       var problem = new Problem(this.title, this.description, this.user.uid);
       for (var test of this.inputTests) {
-        problem.addTest(test.input, test.output);
+        await problem.addTest(test.input, test.output);
       }
       await DBService.createProblem(problem);
       router.push("/problem/" + problem.id);

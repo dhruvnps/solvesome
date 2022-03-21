@@ -34,6 +34,45 @@ class DBService {
     return problems;
   }
 
+  async getUserCreatedProblems(uid) {
+    var problems = [];
+    var col = await getDocs(query(collection(db, "Problems"),
+      where("uid", "==", uid),
+    ));
+    for (var docSnap of col.docs) {
+      var data = docSnap.data()
+      problems.push(new Problem(
+        data.title,
+        data.description,
+        data.uid,
+        data.tests,
+        docSnap.id,
+      ));
+    }
+    return problems;
+  }
+
+  async getUserAttemptedProblems(uid) {
+    var problems = [];
+    var codes = await getDocs(query(collection(db, "Codes"),
+      where("uid", "==", uid),
+      where("codeBlock", "!=", "function solution(input) {}"),
+    ));
+    for (var codeSnap of codes.docs) {
+      var problemId = codeSnap.data().problemId;
+      var docSnap = await getDoc(doc(db, "Problems", problemId));
+      var data = docSnap.data();
+      problems.push(new Problem(
+        data.title,
+        data.description,
+        data.uid,
+        data.tests,
+        problemId,
+      ));
+    }
+    return problems;
+  }
+
   async createProblem(problem) {
     await setDoc(doc(db, "Problems", problem.id), {
       title: problem.title,
@@ -82,6 +121,27 @@ class DBService {
       code.setCode(data.codeBlock);
       return code;
     }
+  }
+
+  async getSubmittedProblemCodes(problemId) {
+    var codes = [];
+    var col = await getDocs(query(collection(db, "Codes"),
+      where("problemId", "==", problemId),
+      where("isSubmitted", "==", true)
+    ));
+    for (var docSnap of col.docs) {
+      var data = docSnap.data();
+      var code = new Code(
+        data.uid,
+        problemId,
+        data.isSubmitted,
+        data.upvoterUids,
+        docSnap.id,
+      );
+      code.setCode(data.codeBlock);
+      codes.push(code);
+    }
+    return codes;
   }
 
   async createCode(code) {

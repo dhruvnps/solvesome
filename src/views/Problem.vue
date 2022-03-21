@@ -10,15 +10,31 @@
     <span class="description"> {{ problem.description }}</span>
     <br />
     <br />
-    <h3>Code</h3>
-    <br />
-    <textarea v-model="code.codeBlock" @keydown.tab.prevent> </textarea>
-    <div class="panel">
-      <span class="button" @click="del">Delete</span>
-      <span class="button" @click="saveRun">Save/Run</span>
-      <span class="button" @click="submit">Submit</span>
-      <span class="divider">|</span>
-      <span class="output">{{ output }}</span>
+    <div v-if="!showSolved">
+      <h3>Code</h3>
+      <br />
+      <textarea v-model="code.codeBlock" @keydown.tab.prevent> </textarea>
+      <div class="panel">
+        <span class="button" @click="del">Delete</span>
+        <span class="button" @click="saveRun">Save/Run</span>
+        <span class="button" @click="submit">Submit</span>
+        <span class="divider">|</span>
+        <span class="output">{{ output }}</span>
+      </div>
+    </div>
+    <div v-if="showSolved">
+      <h3>Submitted Solutions</h3>
+      <span class="noSolutions" v-if="!submittedCodes.length">
+        No solutions submitted yet!
+      </span>
+      <br />
+      <div v-for="code of submittedCodes" v-bind:key="code">
+        <textarea
+          v-model="code.codeBlock"
+          readonly
+          class="submittedCode"
+        ></textarea>
+      </div>
     </div>
   </div>
 </template>
@@ -28,6 +44,7 @@
 import { store } from "@/store";
 import { computed } from "vue";
 import DBService from "@/core/dbservice";
+import router from "@/router";
 
 export default {
   name: "Problem",
@@ -35,13 +52,21 @@ export default {
   data() {
     DBService.getProblem(this.id).then((problem) =>
       DBService.getUser(problem.uid).then((creator) =>
-        DBService.getUserProblemCode(store.getters.getUser.uid, this.id).then(
-          (code) => {
-            this.problem = problem;
-            this.code = code;
-            this.creator = creator;
-            this.state = "";
-          }
+        DBService.getSubmittedProblemCodes(problem.id).then((submittedCodes) =>
+          DBService.getUserProblemCode(store.getters.getUser.uid, this.id).then(
+            (code) => {
+              this.problem = problem;
+              this.code = code;
+              this.creator = creator;
+              if (code.uid === creator.uid) {
+                this.showSolved = true;
+              } else {
+                this.showSolved = code.isSubmitted;
+              }
+              this.submittedCodes = submittedCodes;
+              this.state = "";
+            }
+          )
         )
       )
     );
@@ -51,27 +76,33 @@ export default {
       code: {},
       output: "",
       creator: {},
+      showSolved: false,
+      submittedCodes: [],
       user: computed(() => store.getters.getUser),
     };
   },
   methods: {
     async del() {
-      this.code.resetCode();
       this.output = "";
+      this.code.resetCode();
       await DBService.updateCode(this.code);
     },
     async saveRun() {
-      var score = this.code.testCode(this.problem.tests);
-      this.output = score + " Tests Passed!";
+      this.output = "";
+      var score = await this.code.testCode(this.problem.tests);
       await DBService.updateCode(this.code);
+      this.output = score + " Tests Passed!";
     },
     async submit() {
-      if (!this.code.submitCode(this.problem.tests)) {
-        this.output = "Incorrect Solution";
-      } else {
-        // correct solution
-      }
+      this.output = "";
+      var success = await this.code.submitCode(this.problem.tests);
       await DBService.updateCode(this.code);
+      if (success) {
+        this.output = "Submitting...";
+        router.go();
+      } else {
+        this.output = "Incorrect Solution";
+      }
     },
   },
 };
@@ -88,12 +119,17 @@ textarea {
   height: 100px;
   color: var(--primary);
 }
+.submittedCode {
+  background-color: #ffffff;
+  margin-bottom: 10px;
+}
+.noSolutions {
+  color: red;
+  font-weight: 100;
+}
 .heading {
   display: flex;
   flex-direction: column;
-}
-.author {
-  font-size: small;
 }
 .description {
   white-space: pre-wrap;
@@ -119,5 +155,6 @@ div {
 }
 .loading {
   opacity: 0;
+  pointer-events: none;
 }
 </style>

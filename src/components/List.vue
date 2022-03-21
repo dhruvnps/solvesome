@@ -1,12 +1,12 @@
 <template>
-  <div class="head">
-    <h3>{{ this.title }}</h3>
-    <router-link v-if="showCreateButton" to="/create" class="add">
-      <span>+ Create Problem</span>
-    </router-link>
-  </div>
-  <hr />
   <div class="list" :class="state">
+    <div class="head">
+      <h3>{{ this.title }}</h3>
+      <router-link v-if="showCreateButton" to="/create" class="add">
+        <span>+ Create Problem</span>
+      </router-link>
+    </div>
+    <hr />
     <div v-for="problem in problems" :key="problem">
       <div class="item">
         <router-link :to="'/problem/' + problem.id" class="link">
@@ -20,14 +20,20 @@
 </template>
 
 <script>
+import { store } from "@/store";
+
 export default {
   name: "Listitem",
   props: ["title", "problemGetter", "showCreateButton"],
   data() {
-    this.problemGetter().then((problems) => {
-      this.problems = problems;
-      this.state = "";
-    });
+    setTimeout(
+      () =>
+        this.problemGetter(store.getters.getUser.uid).then((problems) => {
+          this.problems = problems;
+          this.state = "";
+        }),
+      200
+    );
     return {
       state: "loading",
       problems: [],
@@ -39,6 +45,7 @@ export default {
 <style scoped>
 .loading {
   opacity: 0;
+  pointer-events: none;
 }
 .head h3 {
   font-weight: lighter;

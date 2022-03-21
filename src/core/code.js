@@ -1,3 +1,5 @@
+import SHA256 from "@/core/sha256";
+
 class Code {
   // has code been submitted as solution to problem
   isSubmitted = false;
@@ -25,14 +27,17 @@ class Code {
   /**
    * runs code against tests
    */
-  runCode(tests) {
-    var pass = tests.length - tests.length;
+  async runCode(tests) {
+    var pass = 0;
 
-    /* for (var test of tests) {
-      TODO:
-        run code with test.input as input
-        if output is test.output, increase pass by 1
-    } */
+    for (var test of tests) {
+      try {
+        var codeFunc = eval(`((r${this.id})=>{${this.codeBlock};return solution(r${this.id});})`);
+        var output = codeFunc(test.input);
+        var hash = await SHA256.hash(output);
+        if (hash === test.output) pass++;
+      } catch { /* solution code has runtime error */ }
+    }
 
     // returns number of times code passed test case
     return pass
@@ -41,16 +46,16 @@ class Code {
   /**
    * checks code for correctness
    */
-  isCodeCorrect(tests) {
-    return this.runCode(tests) === tests.length
+  async isCodeCorrect(tests) {
+    return await this.runCode(tests) === tests.length
   }
 
   /**
    * tests code success rate
    */
-  testCode(tests) {
+  async testCode(tests) {
     // returns string showing test cases passed vs total tests
-    return this.runCode(tests) + '/' + tests.length
+    return await this.runCode(tests) + '/' + tests.length
   }
 
   /**
@@ -67,7 +72,7 @@ class Code {
    * delete user code and reset code block to default
    */
   resetCode() {
-    this.codeBlock = "function solution(n) { }";
+    this.codeBlock = "function solution(input) {}";
   }
 
   /**
@@ -80,8 +85,9 @@ class Code {
   /**
    * submit user code if correct and return whether code was submitted
    */
-  submitCode(tests) {
-    if (this.isCodeCorrect(tests)) {
+  async submitCode(tests) {
+    var isCorrect = await this.isCodeCorrect(tests)
+    if (isCorrect) {
       this.isSubmitted = true;
       return true
     } else {

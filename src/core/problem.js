@@ -1,3 +1,5 @@
+import SHA256 from "@/core/sha256";
+
 class Problem {
   // list of test cases
   tests = [];
@@ -20,13 +22,22 @@ class Problem {
   /**
    * add input-output pair to list of problem test cases
    */
-  addTest(input, output) {
-    /*
-      TODO: encrypt test output using MD5
-    */
+  async addTest(input, output) {
+    // try parse input/output strings to get values of correct type
+    try {
+      input = JSON.parse(input);
+    } catch { /**/ }
+    try {
+      output = JSON.parse(output);
+    } catch { /**/ }
+
+    // hash output value using sha256 to make it impossible for coder to find
+    var hash = await SHA256.hash(output);
+
+    // push secret tests to code object
     this.tests.push({
       input: input,
-      output: output
+      output: hash
     });
   }
 
