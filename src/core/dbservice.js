@@ -55,6 +55,7 @@ class DBService {
   async createUser(user) {
     await setDoc(doc(db, "Users", user.uid), {
       name: user.name,
+      uid: user.uid,
     });
   }
 
