@@ -10,9 +10,14 @@
       <router-link to="/login" v-else-if="this.$route.path === '/signup'">
         <span>Log In</span>
       </router-link>
-      <router-link to="/profile" v-else>
-        <span>{{ user ? user.name : "" }}</span>
-      </router-link>
+      <div class="logged" v-else>
+        <div @click="logout">
+          <span>Logout</span>
+        </div>
+        <router-link to="/profile">
+          <span>&nbsp;|&nbsp;&nbsp;&nbsp;{{ user ? user.name : "" }}</span>
+        </router-link>
+      </div>
     </div>
   </div>
   <br />
@@ -29,10 +34,19 @@ export default {
       user: computed(() => store.getters.getUser),
     };
   },
+  methods: {
+    logout() {
+      store.dispatch("logoutAction");
+    },
+  },
 };
 </script>
 
 <style scoped>
+.logged {
+  display: flex;
+  flex-direction: row;
+}
 div.bar {
   display: flex;
   justify-content: space-between;

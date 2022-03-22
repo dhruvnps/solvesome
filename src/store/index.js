@@ -2,6 +2,7 @@ import { createStore } from 'vuex'
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { auth } from "@/firebase";
 import DBService from "@/core/dbservice";
@@ -57,6 +58,11 @@ export const store = createStore({
       } catch (err) {
         commit("setError", err.message);
       }
+    },
+    async logoutAction({ commit }) {
+      await signOut(auth);
+      router.push("/login");
+      commit("setUser", null);
     },
     async authAction({ commit }) {
       await auth.onAuthStateChanged(async function (authUser) {
