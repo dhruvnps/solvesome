@@ -3,10 +3,8 @@ import SHA256 from "@/core/sha256";
 class Code {
   // has code been submitted as solution to problem
   isSubmitted = false;
-  // list of IDs of users who upvoted code
-  upvoterUids = [];
 
-  constructor(uid, problemId, isSubmitted, upvoterUids, id) {
+  constructor(uid, problemId, isSubmitted, id) {
     // reset code block plaintext to default
     this.resetCode();
 
@@ -16,9 +14,8 @@ class Code {
     // ID of problem associated to code
     this.problemId = problemId;
 
-    // add (submit status)/(upvoter user ids) if given
+    // add submit status if given
     if (isSubmitted) this.isSubmitted = isSubmitted;
-    if (upvoterUids) this.upvoterUids = upvoterUids;
 
     // randomly generates code ID if its not given
     this.id = id ? id : parseInt(Date.now() * Math.random()).toString();
@@ -59,16 +56,6 @@ class Code {
   }
 
   /**
-   * upvote code solution
-   */
-  upvote(uid) {
-    // only upvote if user has not upvoted code already
-    if (!this.upvoterUids.includes(uid)) {
-      this.upvoterUids.push(uid)
-    }
-  }
-
-  /**
    * delete user code and reset code block to default
    */
   resetCode() {
@@ -93,13 +80,6 @@ class Code {
     } else {
       return false
     }
-  }
-
-  /**
-   * get total number of code upvotes
-   */
-  totalUpvotes() {
-    return this.upvoterUids.length;
   }
 
 }

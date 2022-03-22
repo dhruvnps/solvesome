@@ -115,7 +115,6 @@ class DBService {
         uid,
         problemId,
         data.isSubmitted,
-        data.upvoterUids,
         docSnap.id,
       );
       code.setCode(data.codeBlock);
@@ -135,7 +134,6 @@ class DBService {
         data.uid,
         problemId,
         data.isSubmitted,
-        data.upvoterUids,
         docSnap.id,
       );
       code.setCode(data.codeBlock);
@@ -149,7 +147,6 @@ class DBService {
       uid: code.uid,
       problemId: code.problemId,
       isSubmitted: code.isSubmitted,
-      upvoterUids: code.upvoterUids,
       codeBlock: code.codeBlock,
     })
   }
@@ -157,7 +154,6 @@ class DBService {
   async updateCode(code) {
     await updateDoc(doc(db, "Codes", code.id), {
       isSubmitted: code.isSubmitted,
-      upvoterUids: code.upvoterUids,
       codeBlock: code.codeBlock,
     });
   }
