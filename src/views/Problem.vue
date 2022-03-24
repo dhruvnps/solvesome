@@ -45,6 +45,7 @@
 import { store } from "@/store";
 import { computed } from "vue";
 import DBService from "@/core/dbservice";
+import CodeSort from "@/core/codesort";
 import router from "@/router";
 
 export default {
@@ -64,7 +65,7 @@ export default {
               } else {
                 this.showSolved = code.isSubmitted;
               }
-              this.submittedCodes = submittedCodes;
+              this.submittedCodes = CodeSort.mergeSort(submittedCodes);
               this.state = "";
             }
           )
