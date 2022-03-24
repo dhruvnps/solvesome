@@ -26,14 +26,16 @@ export default {
   name: "Listitem",
   props: ["title", "problemGetter", "showCreateButton"],
   data() {
-    setTimeout(
-      () =>
-        this.problemGetter(store.getters.getUser.uid).then((problems) => {
-          this.problems = problems;
-          this.state = "";
-        }),
-      200
-    );
+    var fetch = () =>
+      setTimeout(() => {
+        try {
+          this.problemGetter(store.getters.getUser.uid).then((problems) => {
+            this.problems = problems;
+            this.state = "";
+          });
+        } catch { fetch(); }
+      }, 50);
+    fetch();
     return {
       state: "loading",
       problems: [],

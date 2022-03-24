@@ -78,7 +78,7 @@ class DBService {
       title: problem.title,
       description: problem.description,
       uid: problem.uid,
-      tests: problem.tests,
+      tests: problem.tests.map(x => ({ input: x.input, output: x.output })),
     });
   }
 
@@ -106,7 +106,7 @@ class DBService {
     var code;
     if (!col.docs.length) {
       code = new Code(uid, problemId);
-      this.createCode(code)
+      this.createCode(code);
       return code;
     } else {
       var docSnap = col.docs[0];

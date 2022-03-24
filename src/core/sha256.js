@@ -1,20 +1,20 @@
 class SHA256 {
 
     async hash(value) {
+        // convert the value to a plaintext string
         var plaintext = JSON.stringify(value);
 
-        // encode plaintext as UTF-8
+        // encode the plaintext as UTF-8
         var textBuff = new TextEncoder().encode(plaintext);
 
-        // hash plaintext using SHA-256
+        // hash the plaintext using SHA-256
         var hashBuff = await crypto.subtle.digest('SHA-256', textBuff);
 
-        // convert to Array
+        // convert hash buffer to hash array
         var hashArr = Array.from(new Uint8Array(hashBuff));
 
-        // convert bytes in Array to hash hex string and return             
-        var hash = hashArr.map(b => b.toString(16).padStart(2, '0')).join('');
-        return hash;
+        // convert bytes in hash array to hex hash string and return
+        return hashArr.map(x => x.toString(16).padStart(2, '0')).join('');
     }
 
 }

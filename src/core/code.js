@@ -1,9 +1,6 @@
 import SHA256 from "@/core/sha256";
 
 class Code {
-  // has code been submitted as solution to problem
-  isSubmitted = false;
-
   constructor(uid, problemId, isSubmitted, id) {
     // reset code block plaintext to default
     this.resetCode();
@@ -14,8 +11,8 @@ class Code {
     // ID of problem associated to code
     this.problemId = problemId;
 
-    // add submit status if given
-    if (isSubmitted) this.isSubmitted = isSubmitted;
+    // set submit status if given (set it to false if not given)
+    this.isSubmitted = isSubmitted === true;
 
     // randomly generates code ID if its not given
     this.id = id ? id : parseInt(Date.now() * Math.random()).toString();
@@ -29,7 +26,7 @@ class Code {
 
     for (var test of tests) {
       try {
-        var codeFunc = eval(`((r${this.id})=>{${this.codeBlock};return solution(r${this.id});})`);
+        var codeFunc = eval(`(_${this.id}=>{${this.codeBlock};return solution(_${this.id});})`);
         var output = codeFunc(test.input);
         var hash = await SHA256.hash(output);
         if (hash === test.output) pass++;

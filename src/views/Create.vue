@@ -38,7 +38,7 @@
 import { store } from "@/store";
 import { computed } from "vue";
 import DBService from "@/core/dbservice";
-import { Problem } from "@/core/problem";
+import { NewProblem } from "@/core/problem";
 import router from "@/router";
 
 export default {
@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     async submit() {
-      var problem = new Problem(this.title, this.description, this.user.uid);
+      var problem = new NewProblem(this.title, this.description, this.user.uid);
       for (var test of this.inputTests) {
         await problem.addTest(test.input, test.output);
       }
