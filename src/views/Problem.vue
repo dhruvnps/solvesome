@@ -89,13 +89,14 @@ export default {
       await DBService.updateCode(this.code);
     },
     async saveRun() {
-      this.output = "";
-      var score = await this.code.testCode(this.problem.tests);
+      this.output = "Testing...";
       await DBService.updateCode(this.code);
+      var score = await this.code.testCode(this.problem.tests);
       this.output = score + " Tests Passed!";
     },
     async submit() {
-      this.output = "";
+      this.output = "Testing...";
+      await DBService.updateCode(this.code);
       var success = await this.code.submitCode(this.problem.tests);
       await DBService.updateCode(this.code);
       if (success) {

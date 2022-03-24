@@ -33,7 +33,9 @@ export default {
             this.problems = problems;
             this.state = "";
           });
-        } catch { fetch(); }
+        } catch {
+          fetch();
+        }
       }, 50);
     fetch();
     return {
