@@ -7,7 +7,6 @@ class User {
     // unique user ID assigned at signup
     this.uid = uid;
   }
-
 }
 
 export { User };

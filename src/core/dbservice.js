@@ -1,4 +1,8 @@
-import { getDoc, getDocs, doc, collection, setDoc, query, where, updateDoc } from "firebase/firestore";
+import {
+  getDoc, getDocs, setDoc, updateDoc,
+  doc, collection,
+  query, where
+} from "firebase/firestore";
 import { db } from "@/firebase";
 import { User } from "@/core/user";
 import { Problem } from "@/core/problem";
@@ -6,6 +10,10 @@ import { Code } from "@/core/code";
 
 class DBService {
 
+  /**
+   * @param {String} id - problem id
+   * @returns {Problem} - problem object of given id
+   */
   async getProblem(id) {
     var docSnap = await getDoc(doc(db, "Problems", id));
     var data = docSnap.data();
@@ -18,6 +26,9 @@ class DBService {
     );
   }
 
+  /**
+   * @returns {Array<Problem>} - list of all problem objects
+   */
   async getAllProblems() {
     var problems = [];
     var col = await getDocs(collection(db, "Problems"));
@@ -34,6 +45,10 @@ class DBService {
     return problems;
   }
 
+  /**
+   * @param {String} uid - user id
+   * @returns {Array<Problem>} - list of problems created by user
+   */
   async getUserCreatedProblems(uid) {
     var problems = [];
     var col = await getDocs(query(collection(db, "Problems"),
@@ -52,6 +67,10 @@ class DBService {
     return problems;
   }
 
+  /**
+   * @param {String} uid - user id
+   * @returns {Array<Problem>} - list of problems attempted by user
+   */
   async getUserAttemptedProblems(uid) {
     var problems = [];
     var codes = await getDocs(query(collection(db, "Codes"),
@@ -73,6 +92,9 @@ class DBService {
     return problems;
   }
 
+  /**
+   * @param {Problem} problem - problem object
+   */
   async createProblem(problem) {
     await setDoc(doc(db, "Problems", problem.id), {
       title: problem.title,
@@ -82,6 +104,10 @@ class DBService {
     });
   }
 
+  /**
+   * @param {String} uid - user id
+   * @return {User} - user object of given uid
+   */
   async getUser(uid) {
     var docSnap = await getDoc(doc(db, "Users", uid));
     var data = docSnap.data();
@@ -91,6 +117,9 @@ class DBService {
     );
   }
 
+  /**
+   * @param {User} user - user object
+   */
   async createUser(user) {
     await setDoc(doc(db, "Users", user.uid), {
       name: user.name,
@@ -98,6 +127,11 @@ class DBService {
     });
   }
 
+  /**
+   * @param {String} uid - user id
+   * @param {String} problemId - problem id
+   * @return {Code} - code written by given user for given problem
+   */
   async getUserProblemCode(uid, problemId) {
     var col = await getDocs(query(collection(db, "Codes"),
       where("uid", "==", uid),
@@ -122,6 +156,10 @@ class DBService {
     }
   }
 
+  /**
+   * @param {String} problemId - problem id
+   * @return {Array<Code>} - list of codes submitted to problem
+   */
   async getSubmittedProblemCodes(problemId) {
     var codes = [];
     var col = await getDocs(query(collection(db, "Codes"),
@@ -142,6 +180,9 @@ class DBService {
     return codes;
   }
 
+  /**
+   * @param {Code} code - code object
+   */
   async createCode(code) {
     await setDoc(doc(db, "Codes", code.id), {
       uid: code.uid,
@@ -151,13 +192,15 @@ class DBService {
     })
   }
 
+  /**
+   * @param {Code} code - code object
+   */
   async updateCode(code) {
     await updateDoc(doc(db, "Codes", code.id), {
       isSubmitted: code.isSubmitted,
       codeBlock: code.codeBlock,
     });
   }
-
 }
 
 export default new DBService();

@@ -4,18 +4,16 @@ class Code {
   constructor(uid, problemId, isSubmitted, id) {
     // reset code block plaintext to default
     this.resetCode();
-
     // user ID of code creator
     this.uid = uid;
-
     // ID of problem associated to code
     this.problemId = problemId;
-
     // set submit status if given (set it to false if not given)
     this.isSubmitted = isSubmitted === true;
-
     // randomly generates code ID if its not given
-    this.id = id ? id : parseInt(Date.now() * Math.random()).toString();
+    this.id = id
+      ? id
+      : parseInt(Date.now() * Math.random()).toString();
   }
 
   /**
@@ -26,9 +24,16 @@ class Code {
 
     for (var test of tests) {
       try {
-        var codeFunc = eval(`(_${this.id}=>{${this.codeBlock};return solution(_${this.id});})`);
+        // wrap code block in anonymous function and evaluate
+        var codeFunc = eval(
+          `(_${this.id}=>{${this.codeBlock};` +
+          `return solution(_${this.id});})`
+        );
+        // run code against input
         var output = codeFunc(test.input);
+        // hash code output using SHA-256
         var hash = await SHA256.hash(output);
+        // increment pass count if output hash matched test case
         if (hash === test.output) pass++;
       } catch { /* solution code has runtime error */ }
     }
@@ -41,6 +46,7 @@ class Code {
    * checks code for correctness
    */
   async isCodeCorrect(tests) {
+    // return true if all tests passed
     return await this.runCode(tests) === tests.length
   }
 
@@ -67,18 +73,19 @@ class Code {
   }
 
   /**
-   * submit user code if correct and return whether code was submitted
+   * submit user code if correct and return if it was submitted
    */
   async submitCode(tests) {
+    // check code correctness
     var isCorrect = await this.isCodeCorrect(tests)
     if (isCorrect) {
+      // set code to submitted if correct
       this.isSubmitted = true;
       return true
     } else {
       return false
     }
   }
-
 }
 
 export { Code };

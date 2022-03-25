@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <!-- embed list component and pass problem getter -->
     <List
       title="Problems"
       :problemGetter="getAllProblems"
@@ -14,10 +15,9 @@ import DBService from "@/core/dbservice";
 
 export default {
   name: "Home",
-  components: {
-    List,
-  },
+  components: { List },
   methods: {
+    // pass get all problems method from database service
     getAllProblems: DBService.getAllProblems,
   },
 };

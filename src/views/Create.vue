@@ -1,10 +1,12 @@
 <template>
   <div>
     <form @submit.prevent="submit">
+      <!-- required problem title input -->
       <input class="title" v-model="title" placeholder="Title" required />
       <br />
       <h3>Description</h3>
       <br />
+      <!-- required problem description input -->
       <textarea
         class="description"
         v-model="description"
@@ -14,10 +16,14 @@
       <br />
       <h3>Test Cases</h3>
       <br />
+      <!-- iterate over test cases -->
       <div class="tests" v-for="(test, index) in inputTests" :key="test">
         <span>{{ index + 1 }}. </span>
+        <!-- show test case input/output fields -->
         <input v-model="test.input" placeholder="Input" required />
         <input v-model="test.output" placeholder="Output" required />
+        <!-- delete button removes test from tests array -->
+        <!-- button only shown if more that one test case -->
         <input
           v-if="inputTests.length > 1"
           type="button"
@@ -26,9 +32,11 @@
         />
       </div>
       <div>
-        <span class="addTest" @click="inputTests.push({})">+ Add Test</span>
+        <!-- add test button pushes empty test to tests array -->
+        <span class="addTest" @click="inputTests.push({})"> + Add Test </span>
       </div>
       <br />
+      <!-- submit button calls submit method if fields inputted -->
       <input type="submit" class="submit" value="Create Problem" />
     </form>
   </div>
@@ -45,19 +53,31 @@ export default {
   name: "Create",
   data() {
     return {
+      // assign default values to data properties
       title: "",
       description: "",
       inputTests: [{}],
+      // get current user object from store
       user: computed(() => store.getters.getUser),
     };
   },
   methods: {
+    // invoked when submit button is clicked
     async submit() {
-      var problem = new NewProblem(this.title, this.description, this.user.uid);
+      // creates new problem project using inherited class
+      var problem = new NewProblem(
+        // pass data properties
+        this.title,
+        this.description,
+        this.user.uid
+      );
+      // add problem test cases
       for (var test of this.inputTests) {
         await problem.addTest(test.input, test.output);
       }
+      // push problem to database via database service
       await DBService.createProblem(problem);
+      // load problem page on browser
       router.push("/problem/" + problem.id);
     },
   },
