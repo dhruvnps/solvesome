@@ -54,7 +54,6 @@
   </div>
 </template>
 
-
 <script>
 import { store } from "@/store";
 import { computed } from "vue";
@@ -150,8 +149,7 @@ export default {
 };
 </script>
 
-
-<style scoped >
+<style scoped>
 textarea {
   background-color: #f4f4f4;
   display: block;

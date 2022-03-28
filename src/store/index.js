@@ -1,4 +1,4 @@
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -7,7 +7,7 @@ import {
 import { auth } from "@/firebase";
 import DBService from "@/core/dbservice";
 import { User } from "@/core/user";
-import router from '@/router'
+import router from "@/router";
 
 export const store = createStore({
   // store state
@@ -25,7 +25,7 @@ export const store = createStore({
     // get error message from store state
     getError(state) {
       return state.error;
-    }
+    },
   },
   mutations: {
     // update store state with updated user object
@@ -37,8 +37,8 @@ export const store = createStore({
       state.error = /\(([^)]+)\)/
         .exec(payload)[0]
         .replace(/[\W_]+/g, " ")
-        .replace('auth', '');
-    }
+        .replace("auth", "");
+    },
   },
   actions: {
     /**
@@ -120,6 +120,6 @@ export const store = createStore({
           commit("setUser", null);
         }
       });
-    }
+    },
   },
-})
+});

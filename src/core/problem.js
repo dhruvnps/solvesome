@@ -18,8 +18,16 @@ class Problem {
    */
   async addTest(input, output) {
     // try parse input/output strings to convert to correct type
-    try { input = JSON.parse(input); } catch { /**/ }
-    try { output = JSON.parse(output); } catch { /**/ }
+    try {
+      input = JSON.parse(input);
+    } catch {
+      /**/
+    }
+    try {
+      output = JSON.parse(output);
+    } catch {
+      /**/
+    }
 
     // hash output value using SHA-256
     var hash = await SHA256.hash(output);
@@ -32,10 +40,10 @@ class Problem {
 class NewProblem extends Problem {
   constructor(title, description, uid) {
     // randomly generates problem ID
-    var id = parseInt(Date.now() * Math.random()).toString()
+    var id = parseInt(Date.now() * Math.random()).toString();
 
     // call parent class constructor with extra generated fields
-    super(title, description, uid, /* tests */[], id);
+    super(title, description, uid, /* tests */ [], id);
   }
 }
 

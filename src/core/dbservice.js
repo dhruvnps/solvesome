@@ -1,7 +1,12 @@
 import {
-  getDoc, getDocs, setDoc, updateDoc,
-  doc, collection,
-  query, where
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+  doc,
+  collection,
+  query,
+  where,
 } from "firebase/firestore";
 import { db } from "@/firebase";
 import { User } from "@/core/user";
@@ -9,7 +14,6 @@ import { Problem } from "@/core/problem";
 import { Code } from "@/core/code";
 
 class DBService {
-
   /**
    * @param {String} id - problem id
    * @returns {Problem} - problem object of given id
@@ -17,13 +21,7 @@ class DBService {
   async getProblem(id) {
     var docSnap = await getDoc(doc(db, "Problems", id));
     var data = docSnap.data();
-    return new Problem(
-      data.title,
-      data.description,
-      data.uid,
-      data.tests,
-      id,
-    );
+    return new Problem(data.title, data.description, data.uid, data.tests, id);
   }
 
   /**
@@ -33,14 +31,16 @@ class DBService {
     var problems = [];
     var col = await getDocs(collection(db, "Problems"));
     for (var docSnap of col.docs) {
-      var data = docSnap.data()
-      problems.push(new Problem(
-        data.title,
-        data.description,
-        data.uid,
-        data.tests,
-        docSnap.id,
-      ));
+      var data = docSnap.data();
+      problems.push(
+        new Problem(
+          data.title,
+          data.description,
+          data.uid,
+          data.tests,
+          docSnap.id
+        )
+      );
     }
     return problems;
   }
@@ -51,18 +51,20 @@ class DBService {
    */
   async getUserCreatedProblems(uid) {
     var problems = [];
-    var col = await getDocs(query(collection(db, "Problems"),
-      where("uid", "==", uid),
-    ));
+    var col = await getDocs(
+      query(collection(db, "Problems"), where("uid", "==", uid))
+    );
     for (var docSnap of col.docs) {
-      var data = docSnap.data()
-      problems.push(new Problem(
-        data.title,
-        data.description,
-        data.uid,
-        data.tests,
-        docSnap.id,
-      ));
+      var data = docSnap.data();
+      problems.push(
+        new Problem(
+          data.title,
+          data.description,
+          data.uid,
+          data.tests,
+          docSnap.id
+        )
+      );
     }
     return problems;
   }
@@ -73,21 +75,26 @@ class DBService {
    */
   async getUserAttemptedProblems(uid) {
     var problems = [];
-    var codes = await getDocs(query(collection(db, "Codes"),
-      where("uid", "==", uid),
-      where("codeBlock", "!=", "function solution(input) {}"),
-    ));
+    var codes = await getDocs(
+      query(
+        collection(db, "Codes"),
+        where("uid", "==", uid),
+        where("codeBlock", "!=", "function solution(input) {}")
+      )
+    );
     for (var codeSnap of codes.docs) {
       var problemId = codeSnap.data().problemId;
       var docSnap = await getDoc(doc(db, "Problems", problemId));
       var data = docSnap.data();
-      problems.push(new Problem(
-        data.title,
-        data.description,
-        data.uid,
-        data.tests,
-        problemId,
-      ));
+      problems.push(
+        new Problem(
+          data.title,
+          data.description,
+          data.uid,
+          data.tests,
+          problemId
+        )
+      );
     }
     return problems;
   }
@@ -100,7 +107,7 @@ class DBService {
       title: problem.title,
       description: problem.description,
       uid: problem.uid,
-      tests: problem.tests.map(x => ({ input: x.input, output: x.output })),
+      tests: problem.tests.map((x) => ({ input: x.input, output: x.output })),
     });
   }
 
@@ -111,10 +118,7 @@ class DBService {
   async getUser(uid) {
     var docSnap = await getDoc(doc(db, "Users", uid));
     var data = docSnap.data();
-    return new User(
-      data.name,
-      uid,
-    );
+    return new User(data.name, uid);
   }
 
   /**
@@ -133,10 +137,13 @@ class DBService {
    * @return {Code} - code written by given user for given problem
    */
   async getUserProblemCode(uid, problemId) {
-    var col = await getDocs(query(collection(db, "Codes"),
-      where("uid", "==", uid),
-      where("problemId", "==", problemId)
-    ));
+    var col = await getDocs(
+      query(
+        collection(db, "Codes"),
+        where("uid", "==", uid),
+        where("problemId", "==", problemId)
+      )
+    );
     var code;
     if (!col.docs.length) {
       code = new Code(uid, problemId);
@@ -145,12 +152,7 @@ class DBService {
     } else {
       var docSnap = col.docs[0];
       var data = docSnap.data();
-      code = new Code(
-        uid,
-        problemId,
-        data.isSubmitted,
-        docSnap.id,
-      );
+      code = new Code(uid, problemId, data.isSubmitted, docSnap.id);
       code.setCode(data.codeBlock);
       return code;
     }
@@ -162,18 +164,16 @@ class DBService {
    */
   async getSubmittedProblemCodes(problemId) {
     var codes = [];
-    var col = await getDocs(query(collection(db, "Codes"),
-      where("problemId", "==", problemId),
-      where("isSubmitted", "==", true)
-    ));
+    var col = await getDocs(
+      query(
+        collection(db, "Codes"),
+        where("problemId", "==", problemId),
+        where("isSubmitted", "==", true)
+      )
+    );
     for (var docSnap of col.docs) {
       var data = docSnap.data();
-      var code = new Code(
-        data.uid,
-        problemId,
-        data.isSubmitted,
-        docSnap.id,
-      );
+      var code = new Code(data.uid, problemId, data.isSubmitted, docSnap.id);
       code.setCode(data.codeBlock);
       codes.push(code);
     }
@@ -189,7 +189,7 @@ class DBService {
       problemId: code.problemId,
       isSubmitted: code.isSubmitted,
       codeBlock: code.codeBlock,
-    })
+    });
   }
 
   /**

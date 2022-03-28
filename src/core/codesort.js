@@ -1,5 +1,4 @@
 class CodeSort {
-
   /**
    * sort two arrays of code objects by code shortest -> longest
    */
@@ -13,10 +12,7 @@ class CodeSort {
     var left = codes.splice(0, codes.length / 2);
 
     // return the merger of the two halves sorted
-    return this.merge(
-      this.mergeSort(left),
-      this.mergeSort(codes)
-    )
+    return this.merge(this.mergeSort(left), this.mergeSort(codes));
   }
 
   /**

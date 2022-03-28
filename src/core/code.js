@@ -11,9 +11,7 @@ class Code {
     // set submit status if given (set it to false if not given)
     this.isSubmitted = isSubmitted === true;
     // randomly generates code ID if its not given
-    this.id = id
-      ? id
-      : parseInt(Date.now() * Math.random()).toString();
+    this.id = id ? id : parseInt(Date.now() * Math.random()).toString();
   }
 
   /**
@@ -27,7 +25,7 @@ class Code {
         // wrap code block in anonymous function and evaluate
         var codeFunc = eval(
           `(_${this.id}=>{${this.codeBlock};` +
-          `return solution(_${this.id});})`
+            `return solution(_${this.id});})`
         );
         // run code against input
         var output = codeFunc(test.input);
@@ -35,11 +33,13 @@ class Code {
         var hash = await SHA256.hash(output);
         // increment pass count if output hash matched test case
         if (hash === test.output) pass++;
-      } catch { /* solution code has runtime error */ }
+      } catch {
+        /* solution code has runtime error */
+      }
     }
 
     // returns number of times code passed test case
-    return pass
+    return pass;
   }
 
   /**
@@ -47,7 +47,7 @@ class Code {
    */
   async isCodeCorrect(tests) {
     // return true if all tests passed
-    return await this.runCode(tests) === tests.length
+    return (await this.runCode(tests)) === tests.length;
   }
 
   /**
@@ -55,7 +55,7 @@ class Code {
    */
   async testCode(tests) {
     // returns string showing test cases passed vs total tests
-    return await this.runCode(tests) + '/' + tests.length
+    return (await this.runCode(tests)) + "/" + tests.length;
   }
 
   /**
@@ -77,13 +77,13 @@ class Code {
    */
   async submitCode(tests) {
     // check code correctness
-    var isCorrect = await this.isCodeCorrect(tests)
+    var isCorrect = await this.isCodeCorrect(tests);
     if (isCorrect) {
       // set code to submitted if correct
       this.isSubmitted = true;
-      return true
+      return true;
     } else {
-      return false
+      return false;
     }
   }
 }
