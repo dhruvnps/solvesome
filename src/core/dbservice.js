@@ -79,7 +79,40 @@ class DBService {
       query(
         collection(db, "Codes"),
         where("uid", "==", uid),
-        where("codeBlock", "!=", "function solution(input) {}")
+        where("codeBlock", "!=", "function solution(input) {}"),
+        where("isSubmitted", "==", false)
+      )
+    );
+    for (var codeSnap of codes.docs) {
+      var problemId = codeSnap.data().problemId;
+      var docSnap = await getDoc(doc(db, "Problems", problemId));
+      var data = docSnap.data();
+      problems.push(
+        new Problem(
+          data.title,
+          data.description,
+          data.uid,
+          data.tests,
+          problemId
+        )
+      );
+    }
+    return problems;
+  }
+
+  /**
+   * @param {String} uid - user id
+   * @param {Boolean} isSubmitted - has user submitted code to problems
+   * @returns {Array<Problem>} - list of problems solved by user
+   */
+  async getUserSolvedProblems(uid) {
+    var problems = [];
+    var codes = await getDocs(
+      query(
+        collection(db, "Codes"),
+        where("uid", "==", uid),
+        where("codeBlock", "!=", "function solution(input) {}"),
+        where("isSubmitted", "==", true)
       )
     );
     for (var codeSnap of codes.docs) {

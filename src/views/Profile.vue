@@ -11,8 +11,16 @@
     <br />
     <!-- 2nd list component is for problems attempted by user -->
     <List
-      title="Solutions Attempted"
+      title="Problems Attempted"
       :problemGetter="getUserAttemptedProblems"
+      :showCreateButton="false"
+    />
+    <br />
+    <br />
+    <!-- 3rd list component is for problems solved by user -->
+    <List
+      title="Problems Solved"
+      :problemGetter="getUserSolvedProblems"
       :showCreateButton="false"
     />
   </div>
@@ -30,6 +38,8 @@ export default {
     getUserCreatedProblems: DBService.getUserCreatedProblems,
     // pass get user attempted problems method to 2nd list
     getUserAttemptedProblems: DBService.getUserAttemptedProblems,
+    // pass get user solved problems method to 3rd list
+    getUserSolvedProblems: DBService.getUserSolvedProblems,
   },
 };
 </script>
