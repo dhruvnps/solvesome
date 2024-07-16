@@ -1,5 +1,5 @@
 # solvesome
-solvesome dot web dot app
+`solvesome dot web dot app`
 
 ## Project setup
 ```
