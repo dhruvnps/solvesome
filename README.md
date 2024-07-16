@@ -1,4 +1,4 @@
-# solvesome
+# solvesome.js
 
 ## Project setup
 ```
