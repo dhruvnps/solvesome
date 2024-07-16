@@ -1,4 +1,5 @@
-# solvesome.js
+# solvesome
+solvesome dot web dot app
 
 ## Project setup
 ```
